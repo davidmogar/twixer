@@ -9,5 +9,6 @@ setup(name='twixer',
       author_email='david.mogar@gmail.com',
       license='MIT',
       url='https://github.com/davidmogar/twixer',
-      packages=find_packages(exclude=['tests'])
+      packages=find_packages(exclude=['tests']),
+      scripts=['bin/twixer']
       )
