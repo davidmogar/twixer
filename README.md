@@ -46,4 +46,4 @@ At the moment I'm only applying facial recognition so there is still a loooooot 
    Yes and no. It's a nice approach but [Face++](http://faceplusplus.com), the service used to apply facial recognition is not reliable. This is a point to be improved in future versions.
 3. **Any plans to upload this app to PyPi?**
 
-   Yep, I'll upload it but I need to implement a lot of things yet, and is gonna take some time.
+   Yep, I'll upload it but I need to implement a lot of things yet, and this is gonna take some time.
