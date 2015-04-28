@@ -21,6 +21,15 @@ if not config.read('twixer/config/config.ini'):
 
 
 def get_user_object(username):
+    """
+    Returns an object with information about the specified user.
+
+    Parameters:
+        username: Username of the target user.
+
+    Returns:
+        An object with the user information.
+    """
     oauth = config['twitter']
 
     auth = tweepy.OAuthHandler(oauth['consumer_key'], oauth['consumer_secret'])
@@ -31,8 +40,11 @@ def get_user_object(username):
 
 
 def parse_arguments():
-    """Define this application arguments and validate input
-    :return: parsed arguments
+    """
+    Define this application arguments and validate input
+
+    Returns:
+        Parsed arguments.
     """
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('username', help='target Twitter username')
