@@ -43,7 +43,7 @@ At the moment I'm only applying facial recognition so there is still a loooooot 
    I spent a day thinking in a good name but I could only think in [chick sexing](http://en.wikipedia.org/wiki/Chick_sexing) so I ended up calling this app twitter-sexer. That name was too long so I renamed it to twixer.
 2. **Is facial recognition useful to find out a Twitter user gender?**
 
-   Yes and no. It's a nice approach but [Face++](http://faceplusplus.com), the service used to apply facial recognition is not reliable. This is a point to be improved in future versions.
+   Yes and no. It's a nice approach but [Face++](http://faceplusplus.com), the service used to apply facial recognition, is not reliable. This is a point to be improved in future versions.
 3. **Any plans to upload this app to PyPi?**
 
    Yep, I'll upload it but I need to implement a lot of things yet, and this is gonna take some time.
