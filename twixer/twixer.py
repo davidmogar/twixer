@@ -4,9 +4,11 @@ import argparse
 import configparser
 import logging
 import logging.config
-from .facepp import API
-import tweepy
 import sys
+import tweepy
+
+from twixer.lib import facepp
+
 
 # Setup logging
 logging.config.fileConfig('twixer/config/logging.conf')
@@ -50,7 +52,7 @@ def main():
 
     # Apply facial recognition
     data = config['facepp']
-    api = API(data['key'], data['secret'], data['server'])
+    api = facepp.API(data['key'], data['secret'], data['server'])
 
     answer = api.detection.detect(url=user.profile_image_url)
     if len(answer['face']) == 1:
