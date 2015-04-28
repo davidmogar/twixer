@@ -9,7 +9,6 @@ import tweepy
 
 from twixer.lib import facepp
 
-
 # Setup logging
 logging.config.fileConfig('twixer/config/logging.conf')
 logger = logging.getLogger(__name__)
