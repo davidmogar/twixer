@@ -2,15 +2,21 @@ __version__ = '0.1.0'
 
 import argparse
 import configparser
+import logging
+import logging.config
 from .facepp import API
 import tweepy
+
+# Setup logging
+logging.config.fileConfig('twixer/config/logging.conf')
+logger = logging.getLogger(__name__)
 
 
 def parse_arguments():
     """Define this application arguments and validate input
     :return: parsed arguments
     """
-    parser = argparse.ArgumentParser(description='', prog='twixer')
+    parser = argparse.ArgumentParser(description='')
     parser.add_argument('account', help='target user\'s Twitter account name')
     parser.add_argument("-v", '--verbose', help="increase output verbosity", action="store_true")
 
@@ -19,7 +25,9 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-
+    if args.verbose:
+        global logger
+        logger.setLevel(logging.DEBUG)
 
 
 def foo():
