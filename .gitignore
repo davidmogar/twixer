@@ -1,6 +1,6 @@
 # Created by https://www.gitignore.io
 
-config.ini
+twixer/config/config.ini
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
