@@ -37,7 +37,7 @@ optional arguments:
 ## To-do
 At the moment I'm only applying facial recognition so there is still a loooooot of things to be done. I'll update this section when the code to be written is less than the items on To-do list.
 
-## Frequent questions that no one ask
+## Questions that no one ever asks
 1. **Why Twixer?**
 
    I spent a day thinking in a good name but I could only think in [chick sexing](http://en.wikipedia.org/wiki/Chick_sexing) so I ended up calling this app twitter-sexer. But that name was too long so a renamed it to twixer.
