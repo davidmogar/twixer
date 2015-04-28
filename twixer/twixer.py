@@ -6,6 +6,7 @@ import logging
 import logging.config
 from .facepp import API
 import tweepy
+import sys
 
 # Setup logging
 logging.config.fileConfig('twixer/config/logging.conf')
@@ -13,7 +14,9 @@ logger = logging.getLogger(__name__)
 
 # Load configuration file
 config = configparser.ConfigParser()
-config.read('twixer/config/config.ini')
+if not config.read('twixer/config/config.ini'):
+    logger.error('Missing config file. Have you defined it?')
+    sys.exit()
 
 
 def get_user_object(username):
