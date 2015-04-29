@@ -7,7 +7,7 @@ import logging.config
 import sys
 import tweepy
 
-from twixer.lib import facepp
+from .lib import facepp
 
 # Setup logging
 logging.config.fileConfig('twixer/config/logging.conf')
@@ -30,6 +30,8 @@ def get_user_object(username):
     Returns:
         An object with the user information.
     """
+    logger.debug('Getting user information')
+
     oauth = config['twitter']
 
     auth = tweepy.OAuthHandler(oauth['consumer_key'], oauth['consumer_secret'])
@@ -62,10 +64,12 @@ def main():
     user = get_user_object(args.username)
 
     # Apply facial recognition
+    logger.debug('Applying facial recognition')
+
     data = config['facepp']
     api = facepp.API(data['key'], data['secret'], data['server'])
 
-    answer = api.detection.detect(url=user.profile_image_url)
+    answer = api.detection.detect(url=user.profile_image_url.replace('_normal', ''))
     if len(answer['face']) == 1:
         logger.info(user.screen_name + ": " + str(answer['face'][0]['attribute']['gender']))
     else:
