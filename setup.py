@@ -21,5 +21,5 @@ setup(name='twixer',
       license='MIT',
       url='https://github.com/davidmogar/twixer',
       packages=find_packages(exclude=['tests']),
-      entry_points={'console_scripts': ['twixer = twixer.twixer:main']}
+      entry_points={'console_scripts': ['twixer = twixer.twixer:main']}, requires=['tweepy']
       )
