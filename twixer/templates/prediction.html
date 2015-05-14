@@ -89,13 +89,20 @@
             <blockquote>Si parece un pato, nada como un pato, y grazna como un pato, entonces probablemente sea un pato.</blockquote>
             <p>Esto es básicamente lo que he hecho en esta tercera fase: Analizar los últimos tuits de {{ user_data['user_name'] }} y ver que decía.</p>
             {% if 'lexicon' in user_data %}
-            <p>Por lo que he investigado,
-                {% if user_data['lexicon']['gender'] == 'Female' %}
-                las <span class="emphasis pink">mujeres</span> son las
+            <p>Estas son las palabras que he encontrado:</p>
+            {% for word, value in user_data['lexicon']['words'].items() %}
+                {% if value > 0 %}
+                <span class="pink">{{ word }}</span>{% if not loop.last %},{% endif %}
                 {% else %}
-                los <span class="emphasis blue">hombres</span> son los
+                <span class="blue">{{ word }}</span>{% if not loop.last %},{% endif %}
                 {% endif %}
-                que suelen usar más amenudo las palabras que he encontrado.
+            {% endfor %}
+            <p>Por lo que he investigado, este usuario usa un número mayor de términos que tengo relacionados con
+                {% if user_data['lexicon']['gender'] == 'Female' %}
+                <span class="emphasis pink">mujeres</span>.
+                {% else %}
+                 <span class="emphasis blue">hombres</span>.
+                {% endif %}
             {% else %}
             <p>Lamentablemente no había suficientes tuits como para averiguar su genero a partir de ellos.</p>
             {% endif %}

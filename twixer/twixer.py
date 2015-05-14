@@ -41,27 +41,25 @@ with open(os.path.join(os.path.dirname(__file__), 'data/lexicon.tsv'), 'r', enco
 
 def get_lexicon_classification(tweets):
     female_words, male_words = 0, 0
-    female_words_list, male_words_list = [], []
+    words_list = {}
 
     for tweet in tweets:
         if 'text' in tweet:
-            for word in tweet['text'].split():
-                if word in lexicon:
-                    if lexicon[word] > 0:
+            for tweet_word in tweet['text'].split():
+                if tweet_word in lexicon and tweet_word not in words_list:
+                    if lexicon[tweet_word] > 0:
                         female_words += 1
-                        female_words_list.append(word)
                     else:
                         male_words += 1
-                        male_words_list.append(word)
+                    words_list[tweet_word] = lexicon[tweet_word]
 
     if female_words != male_words:
         classification = {}
         if female_words > male_words:
             classification['gender'] = 'Female'
-            classification['words'] = ', '.join(female_words_list)
         else:
             classification['gender'] = 'Male'
-            classification['words'] = ', '.join(male_words_list)
+        classification['words'] = words_list
         classification['confidence'] = max(female_words, male_words) / (female_words + male_words)
 
         return classification
