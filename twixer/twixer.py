@@ -40,28 +40,38 @@ with open(os.path.join(os.path.dirname(__file__), 'data/lexicon.tsv'), 'r', enco
 
 
 def get_lexicon_classification(tweets):
-    female_words, male_words = 0, 0
+    female_confidence, male_confidence = 0, 0
+    classifications = 0
     words_list = {}
 
     for tweet in tweets:
         if 'text' in tweet:
-            for tweet_word in tweet['text'].split():
-                if tweet_word in lexicon and tweet_word not in words_list:
-                    if lexicon[tweet_word] > 0:
+            female_words, male_words = 0, 0
+            for word in tweet['text'].split():
+                if word in lexicon and word not in words_list:
+                    if lexicon[word] > 0:
                         female_words += 1
                     else:
                         male_words += 1
-                    words_list[tweet_word] = lexicon[tweet_word]
+                    words_list[word] = lexicon[word]
 
-    if female_words != male_words:
-        classification = {}
-        if female_words > male_words:
+            if female_words != male_words:
+                classifications += 1
+                if female_words > male_words:
+                    female_confidence += female_words / (female_words + male_words)
+                else:
+                    male_confidence += male_words / (female_words + male_words)
+
+    classification = {}
+    female_confidence /= classifications or 1
+    male_confidence /= classifications or 1
+    if female_confidence != male_confidence:
+        if female_confidence > male_confidence:
             classification['gender'] = 'Female'
         else:
             classification['gender'] = 'Male'
         classification['words'] = words_list
-        classification['confidence'] = max(female_words, male_words) / (female_words + male_words)
-
+        classification['confidence'] = max(female_confidence, male_confidence) / (female_confidence + male_confidence)
         return classification
     else:
         return None
@@ -69,14 +79,14 @@ def get_lexicon_classification(tweets):
 
 def get_total_confidence(user_data):
     female, male = 0, 0
-    female_conficende, male_confidence = 0, 0
+    female_confidence, male_confidence = 0, 0
     analysis = 0
 
     if 'genderator' in user_data:
         analysis += 1
         if user_data['genderator']['gender'] == 'Female':
             female += 1
-            female_conficende += user_data['genderator']['confidence']
+            female_confidence += user_data['genderator']['confidence']
         else:
             male += 1
             male_confidence += user_data['genderator']['confidence']
@@ -84,7 +94,7 @@ def get_total_confidence(user_data):
         analysis += 1
         if user_data['facepp']['value'] == 'Female':
             female += 1
-            female_conficende += user_data['facepp']['confidence'] / 100
+            female_confidence += user_data['facepp']['confidence'] / 100
         else:
             male += 1
             male_confidence += user_data['facepp']['confidence'] / 100
@@ -92,17 +102,17 @@ def get_total_confidence(user_data):
         analysis += 1
         if user_data['lexicon']['gender'] == 'Female':
             female += 1
-            female_conficende += user_data['lexicon']['confidence']
+            female_confidence += user_data['lexicon']['confidence']
         else:
             male += 1
             male_confidence += user_data['lexicon']['confidence']
     if female != male:
         if female > male:
             user_data['gender'] = 'Female'
-            user_data['confidence'] = (female_conficende + (1 - (male_confidence or 1))) / analysis
+            user_data['confidence'] = (female_confidence + (1 - (male_confidence or 1))) / analysis
         else:
             user_data['gender'] = 'Male'
-            user_data['confidence'] = (male_confidence + (1 - (female_conficende or 1))) / analysis
+            user_data['confidence'] = (male_confidence + (1 - (female_confidence or 1))) / analysis
 
     return user_data
 
