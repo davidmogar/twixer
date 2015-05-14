@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 # Load configuration file
 config = configparser.ConfigParser()
 if not config.read('twixer/config/config.ini'):
+    logger.error('Missing config file. Have you defined it?')
     sys.exit()
 
 # Prepare Flask
