@@ -62,17 +62,16 @@ class TwitterScrapper():
             A list of tweets in the timeline of the user requested.
         """
         tweets = []
-        tweet_nodes = soup.find_all('div', {
-            'class': ['ProfileTweet'] if include_retweets else ['ProfileTweet', 'is_author']
-        })
+        tweet_nodes = soup.find_all('div', {'class': 'ProfileTweet'})
 
         for tweet_node in tweet_nodes:
-            tweets.append({
-                'author_fullname': tweet_node.find('b', {'class': 'ProfileTweet-fullname'}).text.strip(),
-                'author_screenname': tweet_node.find('span', {'class': 'ProfileTweet-screenname'}).text.
-                        replace('<span class="at">@</span>', '').strip(),
-                'text': tweet_node.find('p', {'class': 'ProfileTweet-text'}).text.strip()
-            })
+            if include_retweets or tweet_node.get('data-retweet-id') is None:
+                tweets.append({
+                    'author_fullname': tweet_node.find('b', {'class': 'ProfileTweet-fullname'}).text.strip(),
+                    'author_screenname': tweet_node.find('span', {'class': 'ProfileTweet-screenname'}).text.
+                            replace('<span class="at">@</span>', '').strip(),
+                    'text': tweet_node.find('p', {'class': 'ProfileTweet-text'}).text.strip()
+                })
 
         return tweets
 
