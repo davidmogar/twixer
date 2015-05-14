@@ -27,6 +27,9 @@
         <p>Y lo mejor de todo: Functiona! ¿Quieres probar? Escribe el nombre de un usuario y dejame echar un vistazo.</p>
     </header>
     <div id="content">
+        {% if error %}
+        <p class="error">Vaya, parece que ese usuario no existe. Vuelve a intentarlo.</p>
+        {% endif %}
         <form action="/" method="post">
             <input name="username" placeholder="Un usuario" autocomplete="off" required="true" autofocus="on">
             <input type="submit" value="Adivinar">

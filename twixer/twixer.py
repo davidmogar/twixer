@@ -130,7 +130,7 @@ def route_index():
 def route_show_user_gender():
     user_data = get_user_data(request.form['username'])
     if user_data is None:
-        return '404'
+        return render_template('index.html', error=True)
     else:
         return render_template('prediction.html', user_data=user_data)
 

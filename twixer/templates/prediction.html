@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <a id="go-back" href="/"><</a>
     <header>
         <img class="framed" src="{{ user_data['profile_image'] }}" alt="Twitter logo"/>
         <h1>Twixer dice...</h1>
@@ -32,11 +31,13 @@
             un <span class="emphasis blue">hombre</span>.</p>
             {% endif %}
         </p>
-        <p>A continuación puedes ver los pasos que he realizado para averiguarlo.</p>
+        <p>A continuación puedes ver los pasos que he realizado para averiguarlo o volver a hacer otra consulta.</p>
         {% else %}
         <p>Lo he intentado, pero no tengo ni idea de si este usuario es hombre o mujer.</p>
         {% endif %}
-        <p>Si tienes curiosidad, a continuación puedes ver los pasos que he realizado para intentar averiguarlo.</p>
+        <p>Si tienes curiosidad, a continuación puedes ver los pasos que he realizado para intentar averiguarlo y si no puedes volver a hacer otra consulta.</p>
+
+        <a id="go-back" href="/">Volver</a>
     </header>
     <div id="content">
         <div class="box">
