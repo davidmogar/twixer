@@ -71,7 +71,7 @@ def get_lexicon_classification(tweets):
         else:
             classification['gender'] = 'Male'
         classification['words'] = words_list
-        classification['confidence'] = max(female_confidence, male_confidence) / (female_confidence + male_confidence)
+        classification['confidence'] = max(female_confidence, male_confidence)
         return classification
     else:
         return None
