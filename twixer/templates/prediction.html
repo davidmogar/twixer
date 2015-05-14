@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <title>Twixer</title>
+    <meta name="description" content="Twitter user gender detection tool">
+    <meta name="keywords" content="twitter, gender, detection">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link rel="apple-touch-icon" href="apple-touch-icon.png">-->
+    <!--<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />-->
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <a id="go-back" href="/"><</a>
+    <header>
+        <img class="framed" src="{{ user_data['profile_image'] }}" alt="Twitter logo"/>
+        <h1>Twixer dice...</h1>
+        {% if 'gender' in user_data %}
+        <p>Por lo que he visto, tengo una confianza del {{ '{0:0.2f}'.format(user_data['confidence'] * 100) }}% de que {{ user_data['user_name'] }} es
+            {% if user_data['gender'] == 'Female' %}
+            una <span class="emphasis pink">mujer</span>.</p>
+            {% else %}
+            un <span class="emphasis blue">hombre</span>.</p>
+            {% endif %}
+        </p>
+        <p>A continuación puedes ver los pasos que he realizado para averiguarlo.</p>
+        {% else %}
+        <p>Lo he intentado, pero no tengo ni idea de si este usuario es hombre o mujer.</p>
+        {% endif %}
+        <p>Si tienes curiosidad, a continuación puedes ver los pasos que he realizado para intentar averiguarlo.</p>
+    </header>
+    <div id="content">
+        <div class="box">
+            <div class="title">
+                <h2>Paso 1: fisgar el nombre</h2>
+                {% if 'genderator' in user_data %}
+                <span>Confianza: {{ '{0:0.2f}'.format(user_data['genderator']['confidence'] * 100) }}%</span>
+                {% endif %}
+            </div>
+            <p>Lo primero que he hecho para averiguar el genero de este usuario ha sido echar un vistazo y ver si su nombre aperecia en el perfil.</p>
+            {% if 'genderator' in user_data %}
+            <p>Y así era!</p>
+            <p>Al analizarlo, he podido ver que su nombre es <span class="emphasis capitalize">{{ user_data['genderator']['real_name'] }}</span>, el cual es un nombre normalmente asociado a
+                {% if user_data['genderator']['gender'] == 'Female' %}
+                <span class="emphasis pink">mujeres</span>.</p>
+                {% else %}
+                <span class="emphasis blue">hombres</span>.</p>
+                {% endif %}
+            {% else %}
+            <p>Desgraciadamente, el nombre que tiene puesto no parece ser un nombre español, y no he podido sacar información de él.</p>
+            {% endif %}
+        </div>
+        <div class="box">
+            <div class="title">
+                <h2>Paso 2: curiosear su foto de perfil</h2>
+                {% if 'facepp' in user_data %}
+                <span>Confianza: {{ '{0:0.2f}'.format(user_data['facepp']['confidence']) }}%</span>
+                {% endif %}
+            </div>
+            <p>¿Sabías que se puede aprender mucho de una foto de perfil? Es común que los usuarios colequen una foto suya, y esto me ayuda a averiguar el genero de un usuario cuando su nombre no facilita mi labor.</p>
+            {% if 'facepp' in user_data %}
+            <p>En este caso estoy bastante convencido de que en la foto aparece
+                {% if user_data['facepp']['value'] == 'Female' %}
+                una <span class="emphasis pink">mujer</span>.</p>
+                {% else %}
+                un <span class="emphasis blue">hombre</span>.</p>
+                {% endif %}
+            {% else %}
+            <p>Sin embargo, la foto de este usuario no dice mucho de él :(.</p>
+            {% endif %}
+        </div>
+        <div class="box">
+            <div class="title">
+                <h2>Paso 3: ver qué cosas dice</h2>
+                {% if 'lexicon' in user_data %}
+                <span>Confianza: {{ '{0:0.2f}'.format(user_data['lexicon']['confidence'] * 100) }}%</span>
+                {% endif %}
+            </div>
+            <p>¿Conoces el test del pato?</p>
+            <blockquote>Si parece un pato, nada como un pato, y grazna como un pato, entonces probablemente sea un pato.</blockquote>
+            <p>Esto es básicamente lo que he hecho en esta tercera fase: Analizar los últimos tuits de {{ user_data['user_name'] }} y ver que decía.</p>
+            {% if 'lexicon' in user_data %}
+            <p>Por lo que he investigado,
+                {% if user_data['lexicon']['gender'] == 'Female' %}
+                las <span class="emphasis pink">mujeres</span> son las
+                {% else %}
+                los <span class="emphasis blue">hombres</span> son los
+                {% endif %}
+                que suelen usar más amenudo las palabras que he encontrado.
+            {% else %}
+            <p>Lamentablemente no había suficientes tuits como para averiguar su genero a partir de ellos.</p>
+            {% endif %}
+        </div>
+    </div>
+    <footer>
+        <p>Copyright 2015 - <a href="http://davidmogar.com">David Moreno-García</a>. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
