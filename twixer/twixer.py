@@ -71,36 +71,40 @@ def get_lexicon_classification(tweets):
 
 def get_total_confidence(user_data):
     female, male = 0, 0
-    female_conficente, male_conficente = 0, 0
+    female_conficende, male_confidence = 0, 0
+    analysis = 0
 
     if 'genderator' in user_data:
+        analysis += 1
         if user_data['genderator']['gender'] == 'Female':
             female += 1
-            female_conficente += user_data['genderator']['confidence']
+            female_conficende += user_data['genderator']['confidence']
         else:
             male += 1
-            male_conficente += user_data['genderator']['confidence']
+            male_confidence += user_data['genderator']['confidence']
     if 'facepp' in user_data:
+        analysis += 1
         if user_data['facepp']['value'] == 'Female':
             female += 1
-            female_conficente += user_data['facepp']['confidence'] / 100
+            female_conficende += user_data['facepp']['confidence'] / 100
         else:
             male += 1
-            male_conficente += user_data['facepp']['confidence'] / 100
+            male_confidence += user_data['facepp']['confidence'] / 100
     if 'lexicon' in user_data:
+        analysis += 1
         if user_data['lexicon']['gender'] == 'Female':
             female += 1
-            female_conficente += user_data['lexicon']['confidence']
+            female_conficende += user_data['lexicon']['confidence']
         else:
             male += 1
-            male_conficente += user_data['lexicon']['confidence']
+            male_confidence += user_data['lexicon']['confidence']
     if female != male:
         if female > male:
             user_data['gender'] = 'Female'
-            user_data['confidence'] = female_conficente / (female_conficente + male_conficente)
+            user_data['confidence'] = (female_conficende + (1 - (male_confidence or 1))) / analysis
         else:
             user_data['gender'] = 'Male'
-            user_data['confidence'] = male_conficente / (female_conficente + male_conficente)
+            user_data['confidence'] = (male_confidence + (1 - (female_conficende or 1))) / analysis
 
     return user_data
 
