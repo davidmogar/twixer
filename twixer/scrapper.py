@@ -46,7 +46,7 @@ class TwitterScrapper():
             The profile image of the user requested or None if not found.
         """
         image = soup.find('img', {'class': 'ProfileAvatar-image'})
-        if image is not None and 'src' in image:
+        if image is not None:
             return image['src'].replace('_400x400', '')
         return None
 
